@@ -56,6 +56,6 @@ define memcached::instance (
     start      => "/sbin/start memcached_${name}",
     stop       => "/sbin/stop memcached_${name}",
     status     => "/sbin/status memcached_${name} | grep '/running' 1>/dev/null 2>&1",
-    require    => [ Package['memcached'], File['/etc/init/solr.conf']],
+    require    => [ Package['memcached'], File["/etc/init/memcached_${name}.conf"]],
   }
 }
