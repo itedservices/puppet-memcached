@@ -1,0 +1,19 @@
+description     "Memcached Instance Service"
+author          "Tron Thongsringklee"
+
+env MEMCACHED=/usr/bin/memcached
+# Make sure thathe file system and network devices have started before
+# we begin the daemon
+start on (filesystem and net-device-up IFACE!=lo)
+
+# Stop the event daemon on system shutdown
+stop on shutdown
+
+# Respawn the process on unexpected termination
+respawn
+
+exec $MEMCACHED -p <%= @tcp_port %> -u <%= @user %> \
+  -m <%= @max_memory %> -c <%= @max_connections %> \
+  -P /var/run/memcached/memcached_<%= @name %>.pid \
+  -l <%= @listen_ip %> -U <%= @udp_port %> -t 1
+
